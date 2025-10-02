@@ -1,0 +1,16 @@
+../SubGHz_Phy/App/subghz_phy_app.c:140:6:SubghzApp_Init	5
+../SubGHz_Phy/App/subghz_phy_app.c:202:13:OnTxDone	1
+../SubGHz_Phy/App/subghz_phy_app.c:213:13:OnRxDone	12
+../SubGHz_Phy/App/subghz_phy_app.c:337:13:OnTxTimeout	1
+../SubGHz_Phy/App/subghz_phy_app.c:346:13:OnRxTimeout	1
+../SubGHz_Phy/App/subghz_phy_app.c:354:13:OnRxError	1
+../SubGHz_Phy/App/subghz_phy_app.c:366:6:SubghzApp_Timeout	1
+../SubGHz_Phy/App/subghz_phy_app.c:398:6:SubghzApp_Event	5
+../SubGHz_Phy/App/subghz_phy_app.c:422:6:SubghzApp_Process	1
+../SubGHz_Phy/App/subghz_phy_app.c:443:6:SubghzApp_Rx	4
+../SubGHz_Phy/App/subghz_phy_app.c:459:6:SubghzApp_Tx	4
+../SubGHz_Phy/App/subghz_phy_app.c:474:6:SubghzApp_Tx_Event	3
+../SubGHz_Phy/App/subghz_phy_app.c:516:6:SubghzApp_BackgroundProcess	3
+../SubGHz_Phy/App/subghz_phy_app.c:531:6:SubghzApp_UART_RxDone	18
+../SubGHz_Phy/App/subghz_phy_app.c:589:6:SubghzApp_Start	2
+../SubGHz_Phy/App/subghz_phy_app.c:598:6:SubghzApp_ValueError	12

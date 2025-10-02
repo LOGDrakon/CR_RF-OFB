@@ -1,0 +1,15 @@
+../Core/Src/tmp275_driver.c:73:24:I2C_WriteRegister	40	static
+../Core/Src/tmp275_driver.c:139:24:I2C_ReadRegister	40	static
+../Core/Src/tmp275_driver.c:208:7:TMP275_ConvertRawToTemperature	16	static
+../Core/Src/tmp275_driver.c:212:9:TMP275_ConvertTemperatureToRaw	16	static
+../Core/Src/tmp275_driver.c:218:17:TMP275_Init	24	static
+../Core/Src/tmp275_driver.c:240:17:TMP275_DeInit	16	static
+../Core/Src/tmp275_driver.c:252:17:TMP275_Configure	40	static
+../Core/Src/tmp275_driver.c:305:17:TMP275_ReadTemperature	24	static
+../Core/Src/tmp275_driver.c:320:17:TMP275_ReadTemperatureRaw	24	static
+../Core/Src/tmp275_driver.c:334:17:TMP275_SetLowThreshold	24	static
+../Core/Src/tmp275_driver.c:349:17:TMP275_SetHighThreshold	24	static
+../Core/Src/tmp275_driver.c:364:17:TMP275_SetMode	16	static
+../Core/Src/tmp275_driver.c:373:6:TMP275_IsInitialized	16	static
+../Core/Src/tmp275_driver.c:377:6:TMP275_I2C_Init	4	static
+../Core/Src/tmp275_driver.c:387:6:TMP275_GPIO_Init	4	static

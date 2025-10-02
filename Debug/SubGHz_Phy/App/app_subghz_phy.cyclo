@@ -1,0 +1,4 @@
+../SubGHz_Phy/App/app_subghz_phy.c:62:6:MX_SubGHz_Phy_Init	1
+../SubGHz_Phy/App/app_subghz_phy.c:77:6:MX_SubGHz_Phy_Process	1
+../SubGHz_Phy/App/app_subghz_phy.c:89:6:SubGHz_Phy_Timeout	1
+../SubGHz_Phy/App/app_subghz_phy.c:94:6:SubGHz_Phy_Event	1
