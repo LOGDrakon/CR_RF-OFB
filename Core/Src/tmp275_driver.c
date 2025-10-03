@@ -74,8 +74,14 @@ static TMP275_Status_t I2C_WriteRegister(TMP275_Handle_t* htmp275, uint8_t reg, 
 {
 	I2C_TypeDef* I2Cx = htmp275->i2c_instance;
 	uint8_t device_address = htmp275->device_address << 1;
+	uint32_t timeout_start = HAL_GetTick();
 
-	while (I2Cx->ISR & I2C_ISR_BUSY);
+	// Wait for bus ready with timeout
+	while (I2Cx->ISR & I2C_ISR_BUSY) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
 
 	I2Cx->CR2 = 0;
 	I2Cx->CR2 &= ~I2C_CR2_ADD10;
@@ -84,8 +90,12 @@ static TMP275_Status_t I2C_WriteRegister(TMP275_Handle_t* htmp275, uint8_t reg, 
 	I2Cx->CR2 &= ~I2C_CR2_RD_WRN;
 	I2Cx->CR2 |= I2C_CR2_START;
 
-	//wait TXIS flag
+	//wait TXIS flag with timeout
+	timeout_start = HAL_GetTick();
 	while (!(I2Cx->ISR & I2C_ISR_TXIS)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
 		//check errors
 		if (I2Cx->ISR & I2C_ISR_ARLO)
 		{
@@ -96,13 +106,17 @@ static TMP275_Status_t I2C_WriteRegister(TMP275_Handle_t* htmp275, uint8_t reg, 
 			return TMP275_NACK;
 		}
 	}
-	//write data
+	//write register address
 	I2Cx->TXDR = reg;
 
-	//send data
+	//send data with timeout
 	for (uint16_t i = 0; i < length; i++) {
-		//wait TXIS flag
+		//wait TXIS flag with timeout
+		timeout_start = HAL_GetTick();
 		while (!(I2Cx->ISR & I2C_ISR_TXIS)) {
+			if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+				return TMP275_TIMEOUT;
+			}
 			//check errors
 			if (I2Cx->ISR & I2C_ISR_ARLO)
 			{
@@ -117,8 +131,12 @@ static TMP275_Status_t I2C_WriteRegister(TMP275_Handle_t* htmp275, uint8_t reg, 
 		I2Cx->TXDR = data[i];
 	}
 
-	//wait end of transmission
+	//wait end of transmission with timeout
+	timeout_start = HAL_GetTick();
 	while (!(I2Cx->ISR & I2C_ISR_TC)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
 		if (I2Cx->ISR & I2C_ISR_ARLO)
 		{
 			return TMP275_BUS_ERROR;
@@ -130,9 +148,19 @@ static TMP275_Status_t I2C_WriteRegister(TMP275_Handle_t* htmp275, uint8_t reg, 
 	}
 	//generate stop
 	I2Cx->CR2 |= I2C_CR2_STOP;
-	//wait stop
-	while (!(I2Cx->ISR & I2C_ISR_STOPF));
-	while(I2Cx->ISR & I2C_ISR_BUSY);
+	//wait stop with timeout
+	timeout_start = HAL_GetTick();
+	while (!(I2Cx->ISR & I2C_ISR_STOPF)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
+	timeout_start = HAL_GetTick();
+	while(I2Cx->ISR & I2C_ISR_BUSY) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
 	return TMP275_OK;
 }
 
@@ -140,8 +168,14 @@ static TMP275_Status_t I2C_ReadRegister(TMP275_Handle_t* htmp275, uint8_t reg, u
 {
 	I2C_TypeDef* I2Cx = htmp275->i2c_instance;
 	uint8_t device_address = htmp275->device_address << 1;
+	uint32_t timeout_start = HAL_GetTick();
 
-	while (I2Cx->ISR & I2C_ISR_BUSY);
+	// Wait for bus ready with timeout
+	while (I2Cx->ISR & I2C_ISR_BUSY) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
 
 	//set reg into pointer register
 	I2Cx->CR2 = 0;
@@ -151,8 +185,12 @@ static TMP275_Status_t I2C_ReadRegister(TMP275_Handle_t* htmp275, uint8_t reg, u
 	I2Cx->CR2 &= ~I2C_CR2_RD_WRN;
 	I2Cx->CR2 |= I2C_CR2_START;
 
-	//wait TXIS flag
+	//wait TXIS flag with timeout
+	timeout_start = HAL_GetTick();
 	while (!(I2Cx->ISR & I2C_ISR_TXIS)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
 		//check errors
 		if (I2Cx->ISR & I2C_ISR_ARLO)
 		{
@@ -166,8 +204,12 @@ static TMP275_Status_t I2C_ReadRegister(TMP275_Handle_t* htmp275, uint8_t reg, u
 	//write reg
 	I2Cx->TXDR = reg;
 
-	// Attendre la fin de la première transmission
+	// Attendre la fin de la première transmission avec timeout
+	timeout_start = HAL_GetTick();
 	while (!(I2Cx->ISR & I2C_ISR_TC)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
 	    if (I2Cx->ISR & I2C_ISR_ARLO) return TMP275_BUS_ERROR;
 	    if (I2Cx->ISR & I2C_ISR_NACKF) return TMP275_NACK;
 	}
@@ -179,10 +221,14 @@ static TMP275_Status_t I2C_ReadRegister(TMP275_Handle_t* htmp275, uint8_t reg, u
 	I2Cx->CR2 |= I2C_CR2_RD_WRN;
 	I2Cx->CR2 |= I2C_CR2_START;
 
-	//receive data
+	//receive data with timeout
 	for (uint16_t i = 0; i < length; i++) {
-		//wait for data
+		//wait for data with timeout
+		timeout_start = HAL_GetTick();
 		while (!(I2Cx->ISR & I2C_ISR_RXNE)) {
+			if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+				return TMP275_TIMEOUT;
+			}
 			//check errors
 			if (I2Cx->ISR & I2C_ISR_ARLO)
 			{
@@ -199,9 +245,19 @@ static TMP275_Status_t I2C_ReadRegister(TMP275_Handle_t* htmp275, uint8_t reg, u
 
 	//generate stop
 	I2Cx->CR2 |= I2C_CR2_STOP;
-	//wait stop
-	while (!(I2Cx->ISR & I2C_ISR_STOPF));
-	while(I2Cx->ISR & I2C_ISR_BUSY);
+	//wait stop with timeout
+	timeout_start = HAL_GetTick();
+	while (!(I2Cx->ISR & I2C_ISR_STOPF)) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
+	timeout_start = HAL_GetTick();
+	while(I2Cx->ISR & I2C_ISR_BUSY) {
+		if ((HAL_GetTick() - timeout_start) > TMP275_I2C_TIMEOUT) {
+			return TMP275_TIMEOUT;
+		}
+	}
 	return TMP275_OK;
 }
 

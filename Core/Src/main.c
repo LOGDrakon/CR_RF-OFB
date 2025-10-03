@@ -91,9 +91,7 @@ int main(void)
 	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 	HAL_Init();
 
-	// Initialisation du générateur aléatoire pour le jitter radio
-	// Utilisation de la RTC ou d'une valeur ADC comme entropie si possible
-	srand((unsigned int)HAL_GetTick());
+	// Initialisation différée du générateur aléatoire (après init GPIO)
 
 	/* USER CODE BEGIN Init */
 
@@ -108,6 +106,14 @@ int main(void)
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
+	{
+		// Initialiser le générateur aléatoire avec plusieurs sources d'entropie
+		uint32_t entropy = HAL_GetTick();
+		entropy ^= HAL_GetUIDw0() ^ HAL_GetUIDw1() ^ HAL_GetUIDw2();
+		// Lire l'état des GPIO uniquement après activation des horloges GPIO
+		entropy ^= ((uint32_t)GPIOA->IDR << 16) ^ (uint32_t)GPIOB->IDR;
+		srand(entropy);
+	}
 	MX_ADC_Init();
 	MX_SubGHz_Phy_Init();
 	MX_USART1_UART_Init();
@@ -191,13 +197,21 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
 void TIM2_Init(void)
 {
-	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
-	TIM2->PSC = (uint16_t)31999;
-	TIM2->ARR = (uint16_t)5000; // 5 seconds period
-	TIM2->DIER |= (1 << 0);
-	NVIC_EnableIRQ(TIM2_IRQn);
+	// Configure TIM2 for 5-second period using direct registers
+	__HAL_RCC_TIM2_CLK_ENABLE();
+
+	// 32MHz / 32000 = 1kHz tick
+	TIM2->PSC = 31999;
+	TIM2->ARR = 5000; // 5 seconds at 1kHz
+	TIM2->CNT = 0;
+	TIM2->DIER |= TIM_DIER_UIE; // Update interrupt enable
+
+	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 1);
+	HAL_NVIC_EnableIRQ(TIM2_IRQn);
+
 	// Start TIM2 only for transmitters (MASTER pin high)
 	if (HAL_GPIO_ReadPin(MASTER_GPIO_Port, MASTER_Pin)) {
 		TIM2->CR1 |= TIM_CR1_CEN;
@@ -206,26 +220,37 @@ void TIM2_Init(void)
 
 void TIM16_Init(void)
 {
-	RCC->APB2ENR |= RCC_APB2ENR_TIM16EN;
-	TIM16->PSC = (uint16_t)31999;
-	TIM16->ARR = (uint16_t)10000;
-	TIM16->CR1 &= ~TIM_CR1_DIR;
-	TIM16->DIER |= TIM_DIER_UIE;
-	NVIC_EnableIRQ(TIM16_IRQn);
+	// Configure TIM16 for 10-second timeout using direct registers
+	__HAL_RCC_TIM16_CLK_ENABLE();
+
+	TIM16->PSC = 31999; // 32MHz / 32000 = 1kHz
+	TIM16->ARR = 10000; // 10 seconds at 1kHz
+	TIM16->CNT = 0;
+	TIM16->DIER |= TIM_DIER_UIE; // Update interrupt enable
+
+	HAL_NVIC_SetPriority(TIM16_IRQn, 0, 1);
+	HAL_NVIC_EnableIRQ(TIM16_IRQn);
+
 	TIM16->CR1 |= TIM_CR1_CEN;
 }
 
 void TIM2_IRQHandler(void)
 {
-	SubghzApp_Event();
-	TIM2->SR &= ~(1 << 0);
+	if (TIM2->SR & TIM_SR_UIF) {
+		TIM2->SR &= ~TIM_SR_UIF; // clear update flag
+		SubghzApp_Event();
+	}
 }
 
 void TIM16_IRQHandler(void)
 {
-	SubGHz_Phy_Timeout();
-	TIM16->SR &= ~(1 << 0);
+	if (TIM16->SR & TIM_SR_UIF) {
+		TIM16->SR &= ~TIM_SR_UIF; // clear update flag
+		SubGHz_Phy_Timeout();
+	}
 }
+
+// HAL Timer callbacks not used (timers configured via registers)
 
 void APP_TMP275_Init(void)
 {

@@ -7,6 +7,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "subghz_phy_app.h"
+#include "nextion_driver.h"
 
 #define UART1_RX_BUFFER_MAX_SIZE 100
 

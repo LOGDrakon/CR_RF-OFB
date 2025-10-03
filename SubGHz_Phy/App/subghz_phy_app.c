@@ -30,7 +30,8 @@
 #include "stdio.h"
 #include "string.h"
 #include "tmp275_driver.h"
-#include "radio_driver.h"
+#include "nextion_driver.h"
+// #include "radio_driver.h"  // Fichier manquant - à créer si nécessaire
 #include <stdlib.h>
 #include <time.h>
 /* USER CODE END Includes */
@@ -86,9 +87,9 @@ uint8_t currentPage;
 
 SubghzApp_State_t SubghzApp_State;
 
-uint8_t past_errors;
-uint8_t *redeem_USART_ptr;
-int redeem_USART_length;
+uint8_t past_errors = 0;
+uint8_t *redeem_USART_ptr = NULL;
+int redeem_USART_length = 0;
 int redeem_done = 1;
 
 /* Définition de l'identité de l'émetteur (0, 1 ou 2) */
@@ -214,16 +215,20 @@ static void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t LoraS
 {
 	/* USER CODE BEGIN OnRxDone */
 	uint8_t isError = 0;
-	// Bound the copy to our buffer size
-	uint16_t copyLen = (size <= sizeof(RxBuffer)) ? size : sizeof(RxBuffer);
-	// Reject frames that are too short to contain the ID prefix
-	if (copyLen < (sizeof(SUBGHZ_APP_ID))) {
+	// Sanity checks to avoid overflow and underlength frames
+	if (payload == NULL) {
+		return;
+	}
+	if (size < sizeof(SUBGHZ_APP_ID)) {
+		// Not even the ID, ignore
 		return;
 	}
 	// Require minimum frame size for field parsing (indices up to 19)
-	if (copyLen < 20) {
+	if (size < 20) {
 		return;
 	}
+	// Bound the copy to our buffer size
+	uint16_t copyLen = (size <= sizeof(RxBuffer)) ? size : sizeof(RxBuffer);
 	memcpy(RxBuffer, payload, copyLen);
 	if(memcmp(RxBuffer, SUBGHZ_APP_ID, sizeof(SUBGHZ_APP_ID)) == 0)
 	{
@@ -530,6 +535,11 @@ void SubghzApp_BackgroundProcess(void)
 
 void SubghzApp_UART_RxDone(uint8_t *rxBuffer, uint16_t rxLen)
 {
+	// Validate input parameters
+	if (rxBuffer == NULL || rxLen == 0) {
+		return;
+	}
+	
 	// Handle standard Nextion reports (optional)
 	// 0x66: Current page ID -> 2 bytes + 3 terminators => len = 5
 	if (rxLen == 5 && rxBuffer[0] == 0x66)
@@ -580,8 +590,12 @@ void SubghzApp_UART_RxDone(uint8_t *rxBuffer, uint16_t rxLen)
 	if(rxLen >= 5 && rxBuffer[0] == 0x71)
 	{
 		// Resultat de l'opération "GET"
-		memcpy(redeem_USART_ptr, rxBuffer + 1, redeem_USART_length);
-		redeem_done = 1;
+		// Verify pointer is valid before copying
+		if (redeem_USART_ptr != NULL && redeem_USART_length > 0 && 
+		    redeem_USART_length <= (int)(rxLen - 1)) {
+			memcpy(redeem_USART_ptr, rxBuffer + 1, redeem_USART_length);
+			redeem_done = 1;
+		}
 		return;
 	}
 }
