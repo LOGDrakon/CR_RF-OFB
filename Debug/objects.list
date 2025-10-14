@@ -3,6 +3,7 @@
 "./Core/Src/gpio.o"
 "./Core/Src/iwdg.o"
 "./Core/Src/main.o"
+"./Core/Src/nextion_driver.o"
 "./Core/Src/rtc.o"
 "./Core/Src/stm32_adv_trace_if.o"
 "./Core/Src/stm32_lpm_if.o"

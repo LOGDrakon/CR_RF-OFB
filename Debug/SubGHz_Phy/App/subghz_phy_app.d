@@ -51,14 +51,7 @@ SubGHz_Phy/App/subghz_phy_app.o: ../SubGHz_Phy/App/subghz_phy_app.c \
  ../Middlewares/Third_Party/SubGHz_Phy/radio_ex.h \
  ../Middlewares/Third_Party/SubGHz_Phy/lr_fhss_v1_base_types.h \
  ../Core/Inc/adc.h ../Core/Inc/usart.h ../Core/Inc/tmp275_driver.h \
- ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.h \
- ../SubGHz_Phy/Target/radio_conf.h ../Core/Inc/subghz.h \
- ../Middlewares/Third_Party/SubGHz_Phy/radio_def.h \
- ../Utilities/misc/stm32_mem.h ../Core/Inc/utilities_conf.h \
- ../Drivers/CMSIS/Include/cmsis_compiler.h \
- ../Utilities/misc/stm32_tiny_vsnprintf.h ../Core/Inc/utilities_def.h \
- ../SubGHz_Phy/Target/mw_log_conf.h ../SubGHz_Phy/Target/radio_board_if.h \
- ../Core/Inc/utilities_def.h
+ ../Core/Inc/nextion_driver.h
 ../Core/Inc/platform.h:
 ../Drivers/CMSIS/Device/ST/STM32WLxx/Include/stm32wlxx.h:
 ../Drivers/CMSIS/Device/ST/STM32WLxx/Include/stm32wl55xx.h:
@@ -115,15 +108,4 @@ SubGHz_Phy/App/subghz_phy_app.o: ../SubGHz_Phy/App/subghz_phy_app.c \
 ../Core/Inc/adc.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/tmp275_driver.h:
-../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.h:
-../SubGHz_Phy/Target/radio_conf.h:
-../Core/Inc/subghz.h:
-../Middlewares/Third_Party/SubGHz_Phy/radio_def.h:
-../Utilities/misc/stm32_mem.h:
-../Core/Inc/utilities_conf.h:
-../Drivers/CMSIS/Include/cmsis_compiler.h:
-../Utilities/misc/stm32_tiny_vsnprintf.h:
-../Core/Inc/utilities_def.h:
-../SubGHz_Phy/Target/mw_log_conf.h:
-../SubGHz_Phy/Target/radio_board_if.h:
-../Core/Inc/utilities_def.h:
+../Core/Inc/nextion_driver.h:

@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "app_subghz_phy.h"
 #include "usart.h"
+#include "radio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -238,10 +239,12 @@ void SUBGHZ_Radio_IRQHandler(void)
   /* USER CODE END SUBGHZ_Radio_IRQn 0 */
   HAL_SUBGHZ_IRQHandler(&hsubghz);
   /* USER CODE BEGIN SUBGHZ_Radio_IRQn 1 */
-
+  // Radio events are dispatched in HAL_SUBGHZ_RadioIRQCallback
   /* USER CODE END SUBGHZ_Radio_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
-
+/* Rely on HAL per-event callbacks (HAL_SUBGHZ_TxCpltCallback, etc.) implemented in the radio driver.
+ * The generic HAL_SUBGHZ_RadioIRQCallback previously called Radio.IrqProcess() without setting the IRQ mask,
+ * which prevented events like TxDone from being dispatched. Remove that override to let the middleware handle IRQs. */
 /* USER CODE END 1 */

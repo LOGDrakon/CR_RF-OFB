@@ -129,8 +129,24 @@ int32_t RBI_ConfigRFSwitch(RBI_Switch_TypeDef Config)
   /* 2/ Or implement RBI_ConfigRFSwitch here */
   int32_t retcode = 0;
   /* USER CODE BEGIN RBI_ConfigRFSwitch_2 */
-  if(Config == RBI_SWITCH_RFO_HP) HAL_GPIO_WritePin(FE_CTRL_GPIO_Port, FE_CTRL_Pin, 1);
-  else if (Config == RBI_SWITCH_RX) HAL_GPIO_WritePin(FE_CTRL_GPIO_Port, FE_CTRL_Pin, 0);
+  /*
+   * Single-pin RF switch control:
+   *  - FE_CTRL = 1 selects TX High-Power path (RFO_HP)
+   *  - FE_CTRL = 0 selects RX path
+   *  - No dedicated LP path on this design (RFO_LP -> treat as RX idle)
+   */
+  switch (Config)
+  {
+    case RBI_SWITCH_RFO_HP:
+      HAL_GPIO_WritePin(FE_CTRL_GPIO_Port, FE_CTRL_Pin, GPIO_PIN_SET);
+      break;
+    case RBI_SWITCH_RX:
+    case RBI_SWITCH_RFO_LP:
+    case RBI_SWITCH_OFF:
+    default:
+      HAL_GPIO_WritePin(FE_CTRL_GPIO_Port, FE_CTRL_Pin, GPIO_PIN_RESET);
+      break;
+  }
   /* USER CODE END RBI_ConfigRFSwitch_2 */
   return retcode;
 #endif  /* USE_BSP_DRIVER */
@@ -154,7 +170,7 @@ int32_t RBI_GetTxConfig(void)
   return BSP_RADIO_GetTxConfig();
 #else
   /* 2/ Or implement RBI_GetTxConfig here */
-  int32_t retcode = RBI_CONF_RFO;
+  int32_t retcode = RBI_CONF_RFO_HP;
   /* USER CODE BEGIN RBI_GetTxConfig_2 */
 #warning user to provide its board code or to call his board driver functions
   /* USER CODE END RBI_GetTxConfig_2 */

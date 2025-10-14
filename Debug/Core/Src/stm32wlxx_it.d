@@ -43,7 +43,11 @@ Core/Src/stm32wlxx_it.o: ../Core/Src/stm32wlxx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h \
  ../Core/Inc/stm32wlxx_it.h ../SubGHz_Phy/App/app_subghz_phy.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h
+ ../Core/Inc/usart.h ../Core/Inc/main.h \
+ ../Middlewares/Third_Party/SubGHz_Phy/radio.h \
+ ../Middlewares/Third_Party/SubGHz_Phy/radio_def.h \
+ ../Middlewares/Third_Party/SubGHz_Phy/radio_ex.h \
+ ../Middlewares/Third_Party/SubGHz_Phy/lr_fhss_v1_base_types.h
 ../Core/Inc/main.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal.h:
 ../Core/Inc/stm32wlxx_hal_conf.h:
@@ -92,3 +96,7 @@ Core/Src/stm32wlxx_it.o: ../Core/Src/stm32wlxx_it.c ../Core/Inc/main.h \
 ../SubGHz_Phy/App/app_subghz_phy.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
+../Middlewares/Third_Party/SubGHz_Phy/radio.h:
+../Middlewares/Third_Party/SubGHz_Phy/radio_def.h:
+../Middlewares/Third_Party/SubGHz_Phy/radio_ex.h:
+../Middlewares/Third_Party/SubGHz_Phy/lr_fhss_v1_base_types.h:

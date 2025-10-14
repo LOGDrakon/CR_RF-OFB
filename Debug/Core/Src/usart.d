@@ -42,7 +42,8 @@ Core/Src/usart.o: ../Core/Src/usart.c ../Core/Inc/usart.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h \
- ../SubGHz_Phy/App/subghz_phy_app.h ../Core/Inc/main.h
+ ../SubGHz_Phy/App/subghz_phy_app.h ../Core/Inc/main.h \
+ ../Core/Inc/nextion_driver.h
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal.h:
@@ -90,3 +91,4 @@ Core/Src/usart.o: ../Core/Src/usart.c ../Core/Inc/usart.h \
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:
 ../SubGHz_Phy/App/subghz_phy_app.h:
 ../Core/Inc/main.h:
+../Core/Inc/nextion_driver.h:

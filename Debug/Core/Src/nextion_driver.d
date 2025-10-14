@@ -1,5 +1,5 @@
-Core/Src/error_manager.o: ../Core/Src/error_manager.c \
- ../Core/Inc/error_manager.h \
+Core/Src/nextion_driver.o: ../Core/Src/nextion_driver.c \
+ ../Core/Inc/nextion_driver.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal.h \
  ../Core/Inc/stm32wlxx_hal_conf.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_dma.h \
@@ -43,8 +43,8 @@ Core/Src/error_manager.o: ../Core/Src/error_manager.c \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h \
  ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h \
- ../Core/Inc/rtc.h ../Core/Inc/main.h
-../Core/Inc/error_manager.h:
+ ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/iwdg.h
+../Core/Inc/nextion_driver.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal.h:
 ../Core/Inc/stm32wlxx_hal_conf.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_dma.h:
@@ -88,5 +88,6 @@ Core/Src/error_manager.o: ../Core/Src/error_manager.c \
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_hal_uart_ex.h:
 ../Drivers/STM32WLxx_HAL_Driver/Inc/stm32wlxx_ll_system.h:
-../Core/Inc/rtc.h:
+../Core/Inc/usart.h:
 ../Core/Inc/main.h:
+../Core/Inc/iwdg.h:

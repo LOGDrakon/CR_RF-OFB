@@ -35,7 +35,8 @@ extern "C" {
 extern UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN Private defines */
-
+extern volatile uint8_t waiting_for_ack;
+extern volatile uint8_t ack_code;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
@@ -49,4 +50,3 @@ void USART1_Interrupt(void);
 #endif
 
 #endif /* __USART_H__ */
-

@@ -77,8 +77,7 @@ void MX_SubGHz_Phy_Init(void)
 void MX_SubGHz_Phy_Process(void)
 {
 	/* USER CODE BEGIN MX_SubGHz_Phy_Process_1 */
-	// Run app background tasks (e.g., jittered TX scheduling)
-	SubghzApp_BackgroundProcess();
+
 	/* USER CODE END MX_SubGHz_Phy_Process_1 */
 	/* USER CODE BEGIN MX_SubGHz_Phy_Process_OS */
 

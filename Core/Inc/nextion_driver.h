@@ -21,13 +21,14 @@ extern "C" {
 void NEXTION_SendCommand(const char* command);
 void NEXTION_SetText(const char* object_name, const char* text);
 void NEXTION_SetValue(const char* object_name, int value);
-void NEXTION_SetBackgroundColor(const char* object_name, uint16_t color);
+void NEXTION_SetBackgroundColor(const char* object_name, uint32_t color);
 void NEXTION_SetTextColor(const char* object_name, uint16_t color);
 void NEXTION_ChangePage(uint8_t page_id);
 void NEXTION_SetVisible(const char* object_name, uint8_t visible);
 void NEXTION_GetValue(const char* object_name);
 void NEXTION_ClearScreen(uint16_t color);
-void NEXTION_SetPicture(const char* object_name, uint8_t picture);
+void NEXTION_SetPicture(const char* object_name, int pic_id);
+void NEXTION_WaitForACK(void);
 
 #ifdef __cplusplus
 }

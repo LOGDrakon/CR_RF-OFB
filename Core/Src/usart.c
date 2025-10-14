@@ -14,10 +14,6 @@
 uint8_t uart1_rx_data;
 uint8_t uart1_rx_buffer[UART1_RX_BUFFER_MAX_SIZE];
 uint8_t uart1_rx_index;
-uint8_t waiting_for_ack;
-uint8_t ack_code;
-
-void NEXTION_WaitForACK(void);
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
@@ -171,106 +167,9 @@ void USART1_Interrupt(void)
 		{
 			//error non-available command
 		}
-
-		// Optional: lightweight debug
-		// for (uint8_t i = 0; i < uart1_rx_index; ++i) {
-		//     ITM_SendChar(uart1_rx_buffer[i]);
-		// }
-		// ITM_SendChar('\n');
-
 		uart1_rx_index = 0;
 	}
 	//relancer l'écoute
 	HAL_UART_Receive_IT(&huart1, &uart1_rx_data, 1);
-}
-
-void NEXTION_SendCommand(const char* command)
-{
-	uint8_t end_cmd[3] = {0xFF, 0xFF, 0xFF};
-	//send command
-	HAL_UART_Transmit(&huart1, (uint8_t*)command, strlen(command), 10);
-	//send 3 last bytes
-	HAL_UART_Transmit(&huart1, end_cmd, 3, 10);
-
-	NEXTION_WaitForACK();
-}
-
-void NEXTION_WaitForACK(void)
-{
-	uint8_t time = 0;
-	waiting_for_ack = 1;
-	while(time < 10)
-	{
-		if(ack_code != 0)
-		{
-			return;
-		}
-		HAL_Delay(1);
-		time++;
-	}
-	ack_code = 0xFF;
-}
-
-void NEXTION_SetText(const char* object_name, const char* text)
-{
-	char command[128];
-	sprintf(command, "%s.txt=\"%s\"", object_name, text);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_SetValue(const char* object_name, int value)
-{
-	char command[128];
-	sprintf(command, "%s.val=%d", object_name, value);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_SetBackgroundColor(const char* object_name, uint16_t color)
-{
-	char command[128];
-	sprintf(command, "%s.bco=%d", object_name, color);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_SetTextColor(const char* object_name, uint16_t color)
-{
-	char command[128];
-	sprintf(command, "%s.pco=%d", object_name, color);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_ChangePage(uint8_t page_id)
-{
-	char command[128];
-	sprintf(command, "page %d", page_id);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_SetVisible(const char* object_name, uint8_t visible)
-{
-	char command[128];
-	sprintf(command, "%s.aph=%d", object_name, visible);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_GetValue(const char* object_name)
-{
-	char command[128];
-	sprintf(command, "get %s.val", object_name);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_ClearScreen(uint16_t color)
-{
-	char command[128];
-	sprintf(command, "cls %d", color);
-	NEXTION_SendCommand(command);
-}
-
-void NEXTION_SetPicture(const char* object_name, uint8_t picture)
-{
-	char command[128];
-	sprintf(command, "%s.pic=%d", object_name, picture);
-	NEXTION_SendCommand(command);
 }
 /* USER CODE END 1 */

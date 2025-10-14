@@ -1,7 +1,7 @@
 ../SubGHz_Phy/Target/radio_board_if.c:59:9:RBI_Init	16	static
 ../SubGHz_Phy/Target/radio_board_if.c:85:9:RBI_DeInit	16	static
 ../SubGHz_Phy/Target/radio_board_if.c:111:9:RBI_ConfigRFSwitch	24	static
-../SubGHz_Phy/Target/radio_board_if.c:139:9:RBI_GetTxConfig	16	static
-../SubGHz_Phy/Target/radio_board_if.c:165:9:RBI_IsTCXO	16	static
-../SubGHz_Phy/Target/radio_board_if.c:191:9:RBI_IsDCDC	16	static
-../SubGHz_Phy/Target/radio_board_if.c:217:9:RBI_GetRFOMaxPowerConfig	24	static
+../SubGHz_Phy/Target/radio_board_if.c:155:9:RBI_GetTxConfig	16	static
+../SubGHz_Phy/Target/radio_board_if.c:181:9:RBI_IsTCXO	16	static
+../SubGHz_Phy/Target/radio_board_if.c:207:9:RBI_IsDCDC	16	static
+../SubGHz_Phy/Target/radio_board_if.c:233:9:RBI_GetRFOMaxPowerConfig	24	static

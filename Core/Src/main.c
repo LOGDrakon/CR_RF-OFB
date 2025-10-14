@@ -24,8 +24,6 @@
 #include "app_subghz_phy.h"
 #include "usart.h"
 #include "gpio.h"
-#include <stdlib.h>
-#include <time.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -91,8 +89,6 @@ int main(void)
 	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 	HAL_Init();
 
-	// Initialisation différée du générateur aléatoire (après init GPIO)
-
 	/* USER CODE BEGIN Init */
 
 	/* USER CODE END Init */
@@ -106,14 +102,6 @@ int main(void)
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
-	{
-		// Initialiser le générateur aléatoire avec plusieurs sources d'entropie
-		uint32_t entropy = HAL_GetTick();
-		entropy ^= HAL_GetUIDw0() ^ HAL_GetUIDw1() ^ HAL_GetUIDw2();
-		// Lire l'état des GPIO uniquement après activation des horloges GPIO
-		entropy ^= ((uint32_t)GPIOA->IDR << 16) ^ (uint32_t)GPIOB->IDR;
-		srand(entropy);
-	}
 	MX_ADC_Init();
 	MX_SubGHz_Phy_Init();
 	MX_USART1_UART_Init();
@@ -122,12 +110,12 @@ int main(void)
 	/* USER CODE BEGIN 2 */
 	APP_TMP275_Init();
 
-	TIM2_Init();
 	if(!HAL_GPIO_ReadPin(MASTER_GPIO_Port, MASTER_Pin)) TIM16_Init();
+
+	TIM2_Init();
 
 	__enable_irq();
 
-	SubghzApp_Start();
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -212,10 +200,7 @@ void TIM2_Init(void)
 	HAL_NVIC_SetPriority(TIM2_IRQn, 0, 1);
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
-	// Start TIM2 only for transmitters (MASTER pin high)
-	if (HAL_GPIO_ReadPin(MASTER_GPIO_Port, MASTER_Pin)) {
-		TIM2->CR1 |= TIM_CR1_CEN;
-	}
+	TIM2->CR1 |= TIM_CR1_CEN;
 }
 
 void TIM16_Init(void)

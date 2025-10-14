@@ -88,7 +88,7 @@ extern "C" {
   * @remark this define is only used if the DCDC is present on the board
   * @note override the default configuration of radio_driver.c
   */
-#define DCDC_ENABLE                 ( 1UL )
+#define DCDC_ENABLE                 ( 0UL )
 
 /* USER CODE BEGIN EC */
 

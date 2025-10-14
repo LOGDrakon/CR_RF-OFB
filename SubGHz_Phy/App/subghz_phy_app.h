@@ -75,10 +75,8 @@ void SubghzApp_Init(void);
 /* USER CODE BEGIN EFP */
 void SubghzApp_Timeout(void);
 void SubghzApp_Event(void);
-void SubghzApp_Process(void);
 void SubghzApp_UART_RxDone(uint8_t *rxBuffer, uint16_t rxLen);
-void SubghzApp_Start(void);
-void SubghzApp_BackgroundProcess(void);
+void SubghzApp_RxProcess(void);
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

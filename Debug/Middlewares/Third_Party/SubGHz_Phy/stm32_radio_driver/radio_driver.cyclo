@@ -20,7 +20,7 @@
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:437:6:SUBGRF_SetTxInfinitePreamble	1
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:442:6:SUBGRF_SetStopRxTimerOnPreambleDetect	1
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:447:6:SUBGRF_SetLoRaSymbNumTimeout	3
-../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:468:6:SUBGRF_SetRegulatorMode	2
+../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:468:6:SUBGRF_SetRegulatorMode	1
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:483:6:SUBGRF_Calibrate	1
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:496:6:SUBGRF_CalibrateImage	6
 ../Middlewares/Third_Party/SubGHz_Phy/stm32_radio_driver/radio_driver.c:534:6:SUBGRF_SetPaConfig	1

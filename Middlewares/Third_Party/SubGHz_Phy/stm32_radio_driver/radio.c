@@ -1318,7 +1318,6 @@ static radio_status_t RadioSend( uint8_t *buffer, uint8_t size )
     /* Set DBG pin */
     DBG_GPIO_RADIO_TX( SET );
 
-
     /* Set RF switch */
     SUBGRF_SetSwitch( SubgRf.AntSwitchPaSelect, RFSWITCH_TX );
     /* WORKAROUND - Modulation Quality with 500 kHz LoRaTM Bandwidth*/
