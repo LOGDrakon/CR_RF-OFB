@@ -1,0 +1,12 @@
+../Core/Src/nextion_driver.c:66:6:NEXTION_WaitForACK	32	static,ignoring_inline_asm
+../Core/Src/nextion_driver.c:34:6:NEXTION_SendCommand.part.0	16	static
+../Core/Src/nextion_driver.c:34:6:NEXTION_SendCommand	0	static
+../Core/Src/nextion_driver.c:135:6:NEXTION_SetText	16	static
+../Core/Src/nextion_driver.c:148:6:NEXTION_SetValue	16	static
+../Core/Src/nextion_driver.c:161:6:NEXTION_SetBackgroundColor	16	static
+../Core/Src/nextion_driver.c:174:6:NEXTION_SetPicture	16	static
+../Core/Src/nextion_driver.c:186:6:NEXTION_ChangePage	8	static
+../Core/Src/nextion_driver.c:197:6:NEXTION_SetTextColor	16	static
+../Core/Src/nextion_driver.c:210:6:NEXTION_SetVisible	16	static
+../Core/Src/nextion_driver.c:223:6:NEXTION_GetValue	8	static
+../Core/Src/nextion_driver.c:235:6:NEXTION_ClearScreen	8	static

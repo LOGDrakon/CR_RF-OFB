@@ -75,7 +75,7 @@ extern "C" {
  * 0: DCDC not supported
  * 1: DCDC supported
  */
-#define IS_DCDC_SUPPORTED                   1U
+#define IS_DCDC_SUPPORTED                   0U
 
 /* USER CODE BEGIN Exported Parameters_2 */
 

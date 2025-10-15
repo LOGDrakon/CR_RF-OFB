@@ -47,21 +47,21 @@ RadioState_t RadioState;
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define APP_RX_TIMEOUT				10000
-#define APP_TX_TIMEOUT				500
+#define APP_RX_TIMEOUT				100
+#define APP_TX_TIMEOUT				100
 
 #define APP_FREQUENCY				868000000
-#define APP_PAYLOAD_LENGTH			24
+#define APP_PAYLOAD_LENGTH			20
 
 #define APP_MODEM					0x1
 #define APP_OUTPUT_POWER			22
 #define APP_BANDWIDTH				0				//[0: 125 kHz, 1: 250 kHz, 2: 500 kHz]
 #define	APP_SPREADING_FACTOR		10
-#define APP_CODING_RATE				1				//[1: 4/5, 2: 4/6, 3: 4/7, 4: 4/8]
+#define APP_CODING_RATE				2				//[1: 4/5, 2: 4/6, 3: 4/7, 4: 4/8]
 #define	APP_PREAMBLE_LENGTH			12
 #define	APP_HEADER					0
 #define APP_CRC						1
-#define APP_SYMB_TIMEOUT			6000
+#define APP_SYMB_TIMEOUT			8
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -321,6 +321,7 @@ static void OnRxDone(uint8_t *payload, uint16_t size, int16_t rssi, int8_t LoraS
 		else
 		{
 			NEXTION_SendCommand("main.bcg_error.en=0");
+			NEXTION_SendCommand("main.bco=65438");
 			NEXTION_SendCommand("main.siren.en=0");
 		}
 	}
